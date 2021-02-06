@@ -1,0 +1,97 @@
+How to setting filebeat on client server ubuntu 18.04
+
++----------------------------настройка filebeat на клинетских серверах----------------------+
+
+переходим в вэб интерйфейс kibana
+
+переходим во вкладку logs
+
+появится окно с надписью "Looks like you don't have any logging indices."
+надо будет нажать на кнопку "View setup instruction"
+
+выбираем elasticsearch log
+
+sudo nano /etc/filebeat/filebeat.yml
+
+
+ type: log
+
+  # Change to true to enable this input configuration.
+  enabled: true <-- включаем конфиг
+
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /var/log/*.log 
+    пишем путь до лог файлов котрые надо считывать 
+
+
+    
+
+setup.kibana:
+
+  # Kibana Host
+  # Scheme and port can be left out and will be set to the default (http and 5601)
+  # In case you specify and additional path, the scheme is required: http://localhost:5601/path
+  # IPv6 addresses should always be defined as: https://[2001:db8::1]:5601
+  #host: "ip-адресс ELKserver :5601"  <---- пишем ip-адресс ELKserver 
+
+
+
+output.elasticsearch:
+  # Array of hosts to connect to.
+  hosts: ["пишем ip-адресс ELKserver :9200"] <---- пишем ip-адресс ELKserver 
+
+
+
+sudo filebeat modules enable system <--- влючаем модуль какой нам надо 
+
+
+sudo filebeat modules list <---- проверяем какие есть и какой включен сейчас 
+
+
+
++-----------------------------------------------------------------------------------------------------------------------------+
+| sudo filebeat setup --template -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["ip-адресс ELKserver:9200"]'| <--- команда для загрузки шаблона:
++--------------------------------------------------------------------------+--------------------------------------------------+
+|                                                                          |
+| Output                                                                   |
+| Loaded index template - если все удачно.то должна выйти такая надпись    |
++--------------------------------------------------------------------------+
+
+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| sudo filebeat setup -e -E output.logstash.enabled=false -E output.elasticsearch.hosts=['ip-адресс ELKserver:9200'] -E setup.kibana.host=ip-адресс ELKserver:5601 |<--- Filebeat подключается к Elasticsearch для проверки информации о версиях
++------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+Output
+2018-09-10T08:39:15.844Z        INFO    instance/beat.go:273    Setup Beat: filebeat; Version: 6.4.2
+2018-09-10T08:39:15.845Z        INFO    elasticsearch/client.go:163     Elasticsearch url: http://localhost:9200
+2018-09-10T08:39:15.845Z        INFO    pipeline/module.go:98   Beat name: elk
+2018-09-10T08:39:15.845Z        INFO    elasticsearch/client.go:163     Elasticsearch url: http://localhost:9200
+2018-09-10T08:39:15.849Z        INFO    elasticsearch/client.go:708     Connected to Elasticsearch version 6.4.2
+2018-09-10T08:39:15.856Z        INFO    template/load.go:129    Template already exists and will not be overwritten.
+Loaded index template
+Loading dashboards (Kibana must be running and reachable)
+2018-09-10T08:39:15.857Z        INFO    elasticsearch/client.go:163     Elasticsearch url: http://localhost:9200
+2018-09-10T08:39:15.865Z        INFO    elasticsearch/client.go:708     Connected to Elasticsearch version 6.4.2
+2018-09-10T08:39:15.865Z        INFO    kibana/client.go:113    Kibana url: http://localhost:5601
+2018-09-10T08:39:45.357Z        INFO    instance/beat.go:659    Kibana dashboards successfully loaded.
+Loaded dashboards
+2018-09-10T08:39:45.358Z        INFO    elasticsearch/client.go:163     Elasticsearch url: http://localhost:9200
+2018-09-10T08:39:45.361Z        INFO    elasticsearch/client.go:708     Connected to Elasticsearch version 6.4.2
+2018-09-10T08:39:45.361Z        INFO    kibana/client.go:113    Kibana url: http://localhost:5601
+2018-09-10T08:39:45.455Z        WARN    fileset/modules.go:388  X-Pack Machine Learning is not enabled
+Loaded machine learning job configurations
++-----------------------------------------------------------------------------------------------------------------------+
+
+
+sudo systemctl start filebeat
+
+sudo systemctl enable filebeat
+
+
+curl -XGET 'http://ip-адресс ELKserver:9200/filebeat-*/_search?pretty' - Чтобы подтвердить получение этих данных в Elasticsearch
+
+
+
