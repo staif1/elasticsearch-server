@@ -1,71 +1,52 @@
 # elasticsearch-server
 how to install on ubuntu 18.04
 
-+---------Шаг 1 — Установка и настройка Elasticsearch------+
+Шаг 1 — Установка и настройка Elasticsearch
 
 install java 8 и создание переменной
-  sudo apt-get install openjdk-8-jre-headless openjdk-8-jdk-headless                                   
-  update-alternatives --config java                                                                    
 
+sudo apt-get install openjdk-8-jre-headless openjdk-8-jdk-headless                                   
+update-alternatives --config java                                                                    
 
 
 Для начала запустите следующую команду для импорта открытого ключа Elasticsearch GPG в APT:
  wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -       
 
-
-
-
-
 Затем добавьте список источников Elastic в каталог sources.list.d, где APT будет искать новые источники:
 echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-6.x.list 
 
-
-
-
 sudo apt-get update - Затем обновите списки пакетов, чтобы APT мог прочитать новый источник Elastic:
-
-
 
 sudo apt install elasticsearch - Установите Elasticsearch с помощью следующей команды:
  
-
-
-
-
 После завершения установки Elasticsearch редактируем файл конфигурации Elasticsearch с именем elasticsearch.yml.
-sudo nano /etc/elasticsearch/elasticsearch.yml                                       
+
+sudo nano /etc/elasticsearch/elasticsearch.yml 
+
 Elasticsearch прослушивает весь трафик порта 9200. Чтобы хосты видели порт 9200 elasticsearch
+
 _local_ - любые адреса обратной связи в системе 127.0.0.1.
 _site_ -  любые локальные адреса сайта в системе 192.168.0.1.
 
 network.host: _site_,_local_  
 
-
-
 чтобы остановить ведение журнала.
+
 sudo nano /usr/lib/systemd/system/elasticsearch.service
+
 StandardOutput=null
+
 StandardError=null
-
-
 
 systemctl daemon-reload
 
-
-
 sudo systemctl enable elasticsearch - чтобы активировать Elasticsearch при каждой загрузке сервера:
-
-
 
 sudo systemctl start elasticsearch - Затем запустите службу Elasticsearch с помощью systemctl:
 
-
-
 curl -X GET "localhost:9200" - протестировать работу службы Elasticsearch, локально 
+
 curl -X GET "пишем ip-адрес сервера:9200" - протестировать работу службы Elasticsearch, по ip адрессу
-
-
-
 
 получим ответ, содержащий базовую информацию о локальном узле:
 
@@ -88,33 +69,27 @@ curl -X GET "пишем ip-адрес сервера:9200" - протестир�
   "tagline" : "You Know, for Search"                        
  }                                                          
 
-
 после,проверяем 
+
 netstat -tulpn
+
 должны увидеть сокеты 9200 на локалхосте и на ip адресе
-
-
-
-
 
 
 +------Шаг 2 — Установка и настройка информационной панели Kiban----+
 
 sudo apt install kibana - установка kibana
 
-
-
 +---sudo nano /etc/kibana/kibana.yml---------+
- elasticsearch.url ip-адресс сервера ELK:9200      	      
+
+ elasticsearch.url ip-адресс сервера ELK:9200 
+ 
  server.host: "0.0.0.0"				                            
-
-
 
 sudo systemctl enable kibana - активируем службу 
 
 
 sudo systemctl start kibana - запускаем службу
-
 
 
 http://your_server_ip:5601 - переходим в браузер
@@ -124,16 +99,12 @@ http://your_server_ip:5601 - переходим в браузер
 
 
 +--------установка обратного прокси nginx-----+
- sudo apt-get update										                                                               
+
+ sudo apt-get update		
+ 
  sudo apt-get install nginx 									                                                        
 
-
-
-
 echo "kibanaadmin:`openssl passwd -apr1`" | sudo tee -a /etc/nginx/htpasswd.users - команда создаст административного пользователя Kibana и пароль
-
-
-
 
 
 sudo nano /etc/nginx/sites-available/example.com  - cоздание файла серверного блока Nginx
