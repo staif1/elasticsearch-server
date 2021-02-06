@@ -1,7 +1,7 @@
 # elasticsearch-server
 how to install on ubuntu 18.04
 
-Шаг 1 — Установка и настройка Elasticsearch
++----Шаг 1 — Установка и настройка Elasticsearch-----+
 
 install java 8 и создание переменной
 
@@ -10,9 +10,11 @@ update-alternatives --config java
 
 
 Для начала запустите следующую команду для импорта открытого ключа Elasticsearch GPG в APT:
+
  wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -       
 
 Затем добавьте список источников Elastic в каталог sources.list.d, где APT будет искать новые источники:
+
 echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-6.x.list 
 
 sudo apt-get update - Затем обновите списки пакетов, чтобы APT мог прочитать новый источник Elastic:
@@ -26,17 +28,22 @@ sudo nano /etc/elasticsearch/elasticsearch.yml
 Elasticsearch прослушивает весь трафик порта 9200. Чтобы хосты видели порт 9200 elasticsearch
 
 _local_ - любые адреса обратной связи в системе 127.0.0.1.
+
 _site_ -  любые локальные адреса сайта в системе 192.168.0.1.
 
-network.host: _site_,_local_  
+
+|network.host: _site_,_local_ |
+
 
 чтобы остановить ведение журнала.
 
-sudo nano /usr/lib/systemd/system/elasticsearch.service
++---sudo nano /usr/lib/systemd/system/elasticsearch.service---+
 
 StandardOutput=null
 
 StandardError=null
+
++----------------------------------------------------------------+
 
 systemctl daemon-reload
 
@@ -68,6 +75,8 @@ curl -X GET "пишем ip-адрес сервера:9200" - протестир�
  },                                                        
   "tagline" : "You Know, for Search"                        
  }                                                          
+
+
 
 после,проверяем 
 
