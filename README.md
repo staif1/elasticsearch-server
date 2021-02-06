@@ -1,13 +1,11 @@
 # elasticsearch-server
 how to install on ubuntu 18.04
 
-+----------------------------------------------Шаг 1 — Установка и настройка Elasticsearch-------------------------------------------------+
++---------Шаг 1 — Установка и настройка Elasticsearch------+
 
 install java 8 и создание переменной
   sudo apt-get install openjdk-8-jre-headless openjdk-8-jdk-headless                                   
   update-alternatives --config java                                                                    
-
-
 
 
 
@@ -138,9 +136,10 @@ echo "kibanaadmin:`openssl passwd -apr1`" | sudo tee -a /etc/nginx/htpasswd.user
 
 
 
-+-----------------------------------------------------+
-| sudo nano /etc/nginx/sites-available/example.com    | - cоздание файла серверного блока Nginx
-+-----------------------------------------------------+
+
+
+sudo nano /etc/nginx/sites-available/example.com  - cоздание файла серверного блока Nginx
+
 server {                                             
     listen 80;                                       
                                                     
@@ -158,7 +157,7 @@ server {
         proxy_cache_bypass $http_upgrade;            
     }                                                
  }                                                   
-+-----------------------------------------------------+
+
 
 
 
