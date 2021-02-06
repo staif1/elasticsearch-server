@@ -42,8 +42,6 @@ network.host: _site_,_local_
 
 
 
-
-
 чтобы остановить ведение журнала.
 sudo nano /usr/lib/systemd/system/elasticsearch.service
 StandardOutput=null
