@@ -4,22 +4,22 @@ how to install on ubuntu 18.04
 +----------------------------------------------Шаг 1 — Установка и настройка Elasticsearch-------------------------------------------------+
 
 +--------------------------------install java 8 и создание переменной----------------------------------+
-| sudo apt-get install openjdk-8-jre-headless openjdk-8-jdk-headless                                   |
-| update-alternatives --config java                                                                    |
-+------------------------------------------------------------------------------------------------------+
+  sudo apt-get install openjdk-8-jre-headless openjdk-8-jdk-headless                                   
+  update-alternatives --config java                                                                    
+
 
 
 
 Для начала запустите следующую команду для импорта открытого ключа Elasticsearch GPG в APT:
 +------------------------------------------------------------------------------------------+
-| wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -       |
-+------------------------------------------------------------------------------------------+
+ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -       
+
 
 
 Затем добавьте список источников Elastic в каталог sources.list.d, где APT будет искать новые источники:
 +----------------------------------------------------------------------------------------------------------------------------+
-|echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-6.x.list |
-+----------------------------------------------------------------------------------------------------------------------------+ 
+echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-6.x.list 
+
 
 
 sudo apt-get update - Затем обновите списки пакетов, чтобы APT мог прочитать новый источник Elastic:
@@ -59,26 +59,26 @@ curl -X GET "пишем ip-адрес сервера:9200" - протестир�
 
 
 получим ответ, содержащий базовую информацию о локальном узле:
-+------------------------------------------------------------+
-| Output                                                     |
-| {                                                          |
-|  "name" : "ZlJ0k2h",                                       |
-|  "cluster_name" : "elasticsearch",                         |
-|  "cluster_uuid" : "beJf9oPSTbecP7_i8pRVCw",                |
-|  "version" : {                                             |
-|    "number" : "6.4.2",                                     |
-|    "build_flavor" : "default",                             |
-|    "build_type" : "deb",                                   |
-|    "build_hash" : "04711c2",                               |
-|    "build_date" : "2018-09-26T13:34:09.098244Z",           |
-|    "build_snapshot" : false,                               |
-|    "lucene_version" : "7.4.0",                             |
-|    "minimum_wire_compatibility_version" : "5.6.0",         |
-|    "minimum_index_compatibility_version" : "5.0.0"         |
-|  },                                                        |
-|  "tagline" : "You Know, for Search"                        |
-| }                                                          |
-+------------------------------------------------------------+
+
+ Output                                                     
+ {                                                          
+  "name" : "ZlJ0k2h",                                       
+  "cluster_name" : "elasticsearch",                         
+  "cluster_uuid" : "beJf9oPSTbecP7_i8pRVCw",                
+  "version" : {                                             
+    "number" : "6.4.2",                                     
+    "build_flavor" : "default",                             
+    "build_type" : "deb",                                   
+    "build_hash" : "04711c2",                               
+   "build_date" : "2018-09-26T13:34:09.098244Z",           
+    "build_snapshot" : false,                               
+    "lucene_version" : "7.4.0",                             
+    "minimum_wire_compatibility_version" : "5.6.0",         
+    "minimum_index_compatibility_version" : "5.0.0"         
+ },                                                        
+  "tagline" : "You Know, for Search"                        
+ }                                                          
+
 
 после,проверяем 
 netstat -tulpn
@@ -90,9 +90,9 @@ netstat -tulpn
 sudo apt install kibana - установка kibana
 
 +-----------sudo nano /etc/kibana/kibana.yml----------------+
-| elasticsearch.url ip-адресс сервера ELK:9200      	      |
-| server.host: "0.0.0.0"				                            |
-+-----------------------------------------------------------+
+ elasticsearch.url ip-адресс сервера ELK:9200      	      
+ server.host: "0.0.0.0"				                            
+
 
 sudo systemctl enable kibana - активируем службу 
 
@@ -103,10 +103,10 @@ http://your_server_ip:5601 - переходим в браузер
 
 
 
-+------------------------------установка обратного прокси nginx----------------------------------------+
-| sudo apt-get update										                                                               |
-| sudo apt-get install nginx 									                                                         |
-+------------------------------------------------------------------------------------------------------+
++--------установка обратного прокси nginx---------------+
+ sudo apt-get update										                                                               
+ sudo apt-get install nginx 									                                                        
+
 
 
 echo "kibanaadmin:`openssl passwd -apr1`" | sudo tee -a /etc/nginx/htpasswd.users - команда создаст административного пользователя Kibana и пароль
